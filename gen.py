@@ -1,7 +1,7 @@
 import random
 
 # define some constants
-WorkingSetLimit = 10
+ResidentSetLimit = 10
 refLength = 10000
 
 def generate():
@@ -27,46 +27,34 @@ def optimal(ref):
   counter = 0
   for page in ref:
     # is the current page in the resident set?
-    # TODO fix this shoddy workaround
-    pageInResidentSet = False
-    try:
-      pageInResidentSet = resident.index(page)
-    except ValueError:
-      pass
-      
-      if not pageInResidentSet:
-        if len(resident) <= WorkingSetLimit:
-          # just get it because we have room
-          resident.append(page)
-          pFaults+=1
-        else: 
-          # need to kick out a page, so which one?
-          # find the page we are going to use last, knock it out
-          list_of_pages = resident
-          # eliminate from list_of_pages until one is left, kill that one
-          for todo in ref[counter:]:
-            if len(list_of_pages) == 1:
-              # we have found the one used the furthest in the future
-              # remove it
-              # add the new one, break
-              resident.remove(list_of_pages[0])
-              resident.append(page)
-              pFaults+=1
-              break
-              
-            # TODO fix this shoddy workaround
-            pageUsed = False
-            try:
-              pageUsed = list_of_pages.index(todo)
-            except ValueError:
-              pass
-              
-            if pageUsed:
-              list_of_pages.remove(todo)
+    
+    if page not in resident:
+      if len(resident) < ResidentSetLimit:
+        # just get it because we have room
+        resident.append(page)
+        pFaults+=1
+      else: 
+        # need to kick out a page, so which one?
+        # find the page we are going to use last, knock it out
+        list_of_pages = resident
+        # eliminate from list_of_pages until one is left, kill that one
+        for todo in ref[counter:]:
+          if len(list_of_pages) == 1:
+            # we have found the one used the furthest in the future
+            # remove it
+            # add the new one, break
+            break
+            
+          if todo in list_of_pages:
+            list_of_pages.remove(todo)
+            
+        resident.remove(list_of_pages[0])
+        resident.append(page)
+        pFaults+=1
+        
     counter+=1
   return pFaults
     
 # main
 reflist = generate()
-
 print optimal(reflist);
