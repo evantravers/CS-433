@@ -18,7 +18,13 @@ def generate():
       else:
         results.append(last - 1)
     if chance >= .9:
-      results.append(int(random.random()*100))
+			if chance < .95:
+				results.append(int(random.random()*100))
+			else: 
+				if direction == 1 or last == 0 or num == 0:
+					results.append(last + 2)
+				else:
+					results.append(last - 2)
   return results
 
 def optimal(ref):
