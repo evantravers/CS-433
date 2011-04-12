@@ -28,6 +28,17 @@ def generate():
 					results.append(last - 2)
   return results
 
+def generateAdam():
+	results = []
+	for num in range(0, refLength):
+		if random.random() < 0.9:
+			# return something between 0 and 9
+			results.append(int(random.random()*10))
+		else:
+			# pull something out of your butt
+			results.append(int(random.random()*90)+10)
+	return results
+
 def stupid(ref):
   pFaults = 0
   resident = []
@@ -86,6 +97,14 @@ def optimal(ref):
   return pFaults
     
 # main
+# print the variables
+
+print "Ref String Length: ", refLength, " Resident Set Length: ", ResidentSetLimit
+reflist = generateAdam()
+print "using Adam's 90/10 rule"
+print "optimal: ", optimal(reflist)
+print "random: ", stupid(reflist)
 reflist = generate()
+print "using my 90/10 rule"
 print "optimal: ", optimal(reflist)
 print "random: ", stupid(reflist)
