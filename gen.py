@@ -43,10 +43,8 @@ def stupid(ref):
         # need to kick out a page, so which one?
         # pick one at random, that makes sense
         # eliminate from list_of_pages until one is left, kill that one
-        # todo fix the horribleness that is below 
-        # resident.remove(random.random()*(len(resident)-1))
-				tmp = int(random.random()*len(resident)-1)
-				resident = resident[0:tmp]+resident[tmp+1:]
+				thingToRemove = int(random.random()*len(resident)-1)
+				del resident[:thingToRemove]
 				resident.append(page)
 				pFaults+=1
         
