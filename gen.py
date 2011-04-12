@@ -1,4 +1,5 @@
 import random
+import sys
 
 # define some constants
 ResidentSetLimit = 10
@@ -26,6 +27,31 @@ def generate():
 				else:
 					results.append(last - 2)
   return results
+
+def stupid(ref):
+  pFaults = 0
+  resident = []
+  for page in ref:
+    # is the current page in the resident set?
+    
+    if page not in resident:
+      if len(resident) < ResidentSetLimit:
+        # just get it because we have room
+        resident.append(page)
+        pFaults+=1
+      else: 
+        # need to kick out a page, so which one?
+        # pick one at random, that makes sense
+        # eliminate from list_of_pages until one is left, kill that one
+        # todo fix the horribleness that is below 
+        # resident.remove(random.random()*(len(resident)-1))
+				tmp = int(random.random()*len(resident)-1)
+				resident = resident[0:tmp]+resident[tmp+1:]
+				resident.append(page)
+				pFaults+=1
+        
+  return pFaults
+
 
 def optimal(ref):
   pFaults = 0
@@ -63,4 +89,5 @@ def optimal(ref):
     
 # main
 reflist = generate()
-print optimal(reflist);
+print "optimal: ", optimal(reflist)
+print "random: ", stupid(reflist)
