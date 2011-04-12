@@ -68,7 +68,7 @@ def optimal(ref):
       else: 
         # need to kick out a page, so which one?
         # find the page we are going to use last, knock it out
-        list_of_pages = resident
+        list_of_pages = list(resident)
         # eliminate from list_of_pages until one is left, kill that one
         for todo in ref[counter:]:
           if len(list_of_pages) == 1:
